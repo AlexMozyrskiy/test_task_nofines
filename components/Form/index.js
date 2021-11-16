@@ -20,7 +20,7 @@ const Form = ({ inputValue, setInputValue, fine, setFine }) => {
       setHint(null);
     }
 
-    if (fine?.number | (fine === null)) {
+    if (fine?.number || fine === null) {
       setFine({});
     }
   };
