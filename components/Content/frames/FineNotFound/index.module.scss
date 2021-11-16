@@ -1,0 +1,13 @@
+.fineNotFound {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  & > figure {
+    margin: 40px 0 24px 0;
+  }
+
+  & > p {
+    margin: 0;
+  }
+}
