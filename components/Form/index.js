@@ -4,7 +4,7 @@ import { calculateControlCategory } from "../../helpers";
 
 import st from "./index.module.scss";
 
-const Form = ({ inputValue, setInputValue, setFine }) => {
+const Form = ({ inputValue, setInputValue, fine, setFine }) => {
   const [hint, setHint] = useState(null);
 
   const onChangeHandler = (e) => {
@@ -19,6 +19,10 @@ const Form = ({ inputValue, setInputValue, setFine }) => {
     } else if ((value.length !== 19 || value.length !== 24) && hint) {
       setHint(null);
     }
+
+    if (fine?.number | (fine === null)) {
+      setFine({});
+    }
   };
 
   const onHintClickHandler = () => {
@@ -26,8 +30,18 @@ const Form = ({ inputValue, setInputValue, setFine }) => {
     setHint(null);
   };
 
-  const onSubmitHandler = (e) => {
+  const onSubmitHandler = async (e) => {
     e.preventDefault();
+    const response = await fetch(
+      `https://test-task.shtrafovnet.com/fines/${inputValue}`
+    );
+    if (response.status === 200) {
+      const res = await response.json();
+      setFine(res);
+      console.log(res);
+    } else {
+      setFine(null);
+    }
   };
 
   return (

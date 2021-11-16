@@ -33,6 +33,7 @@ const Index = () => {
           <Form
             inputValue={inputValue}
             setInputValue={setInputValue}
+            fine={fine}
             setFine={setFine}
           />
         </section>
