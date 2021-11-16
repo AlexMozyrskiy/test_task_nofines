@@ -9,15 +9,21 @@ const Form = ({ inputValue, setInputValue, setFine }) => {
 
   const onChangeHandler = (e) => {
     const value = e.target.value;
+
     setInputValue(value);
 
     /* Если длина согласно ТЗ вычислим контрольный разряд */
     if (value.length === 19 || value.length === 24) {
-      setHint(calculateControlCategory(value));
+      setHint(value + calculateControlCategory(value));
       /* Если длина другая и контрольный разряд рассчитан, уберем его, чтобы не показывать посдказку */
     } else if ((value.length !== 19 || value.length !== 24) && hint) {
       setHint(null);
     }
+  };
+
+  const onHintClickHandler = () => {
+    setInputValue(hint);
+    setHint(null);
   };
 
   const onSubmitHandler = (e) => {
@@ -31,8 +37,13 @@ const Form = ({ inputValue, setInputValue, setFine }) => {
         type="number"
         value={inputValue}
         onChange={(e) => onChangeHandler(e)}
-      ></input>
-      {hint !== null && <div className={st.form__hint}></div>}
+        maxLength="25"
+      />
+      {hint !== null && (
+        <div className={st.form__hint} onClick={onHintClickHandler}>
+          {hint}
+        </div>
+      )}
       <button onClick={(e) => onSubmitHandler(e)}>Найти</button>
     </form>
   );
