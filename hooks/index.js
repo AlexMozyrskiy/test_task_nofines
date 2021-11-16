@@ -11,11 +11,12 @@ export const useHttp = () => {
     );
     if (response.status === 200) {
       const res = await response.json();
+      setIsFetching(false);
       return res;
     } else {
+      setIsFetching(false);
       return false;
     }
-    setIsFetching(false);
   }, []);
 
   return {

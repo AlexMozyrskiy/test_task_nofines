@@ -3,11 +3,12 @@ import FineNotFound from "./frames/FineNotFound";
 
 import st from "./index.module.scss";
 
-const Content = ({ fine, inputValue }) => {
+const Content = ({ fine, inputValue, isFetching }) => {
   return (
     <div className={st.content}>
-      {fine === null && <FineNotFound inputValue={inputValue} />}
-      {fine?.number !== undefined && <>Штраф</>}
+      {isFetching && <Loader />}
+      {fine === null && !isFetching && <FineNotFound inputValue={inputValue} />}
+      {fine?.number !== undefined && !isFetching && <>Штраф</>}
     </div>
   );
 };

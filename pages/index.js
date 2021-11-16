@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import { useHttp } from "../hooks";
+
 import MainLayout from "../components/mainLayout";
 import Logo from "../components/Logo";
 import SubTitle from "../components/SubTitle";
@@ -10,6 +12,8 @@ import st from "../styles/index.module.scss";
 
 const Index = () => {
   const [inputValue, setInputValue] = useState("");
+
+  const { getFine: getFineService, isFetching } = useHttp();
 
   /*
     может быть три типа: {} - поиск еще не выполнялся (показываем пустой контент),
@@ -35,11 +39,16 @@ const Index = () => {
             setInputValue={setInputValue}
             fine={fine}
             setFine={setFine}
+            getFineService={getFineService}
           />
         </section>
 
         <section className={st.main__content}>
-          <Content fine={fine} inputValue={inputValue} />
+          <Content
+            fine={fine}
+            inputValue={inputValue}
+            isFetching={isFetching}
+          />
         </section>
       </section>
     </MainLayout>

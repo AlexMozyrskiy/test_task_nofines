@@ -1,14 +1,11 @@
 import { useState } from "react";
 
 import { calculateControlCategory } from "../../helpers";
-import { useHttp } from "../../hooks";
 
 import st from "./index.module.scss";
 
-const Form = ({ inputValue, setInputValue, fine, setFine }) => {
+const Form = ({ inputValue, setInputValue, fine, setFine, getFineService }) => {
   const [hint, setHint] = useState(null);
-
-  const { getFine: getFineService, isFetching, error } = useHttp();
 
   const onChangeHandler = (e) => {
     const value = e.target.value;
