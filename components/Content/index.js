@@ -6,7 +6,6 @@ import st from "./index.module.scss";
 const Content = ({ fine, inputValue }) => {
   return (
     <div className={st.content}>
-      <Loader />
       {fine === null && <FineNotFound inputValue={inputValue} />}
       {fine?.number !== undefined && <>Штраф</>}
     </div>

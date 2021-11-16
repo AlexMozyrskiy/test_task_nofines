@@ -1,11 +1,14 @@
 import { useState } from "react";
 
 import { calculateControlCategory } from "../../helpers";
+import { useHttp } from "../../hooks";
 
 import st from "./index.module.scss";
 
 const Form = ({ inputValue, setInputValue, fine, setFine }) => {
   const [hint, setHint] = useState(null);
+
+  const { getFine: getFineService, isFetching, error } = useHttp();
 
   const onChangeHandler = (e) => {
     const value = e.target.value;
@@ -28,19 +31,18 @@ const Form = ({ inputValue, setInputValue, fine, setFine }) => {
   const onHintClickHandler = () => {
     setInputValue(hint);
     setHint(null);
+    setFine({});
   };
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
-    const response = await fetch(
-      `https://test-task.shtrafovnet.com/fines/${inputValue}`
-    );
-    if (response.status === 200) {
-      const res = await response.json();
-      setFine(res);
-      console.log(res);
-    } else {
+
+    const response = await getFineService(inputValue);
+
+    if (!response) {
       setFine(null);
+    } else {
+      setFine(response);
     }
   };
 
