@@ -9,7 +9,7 @@ import st from "./index.module.scss";
 const Form = () => {
   const router = useRouter();
 
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState(router.query.number ?? "");
 
   const [hint, setHint] = useState(null);
 
@@ -35,7 +35,7 @@ const Form = () => {
   const onSubmitHandler = async (e) => {
     e.preventDefault();
 
-    router.push(inputValue);
+    router.push("/fine/" + inputValue);
   };
 
   return (
