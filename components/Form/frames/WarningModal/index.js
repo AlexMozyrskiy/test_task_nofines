@@ -6,7 +6,7 @@ const WarningModal = ({ onSubmitClick, close, inputCount }) => {
       <article className={st.modal}>
         <p>
           Количество введенных символов должно быть 20 или 25. Вы ввели{" "}
-          {inputCount} символов
+          {inputCount}.
         </p>
         <div className={st.modal__acceptButton}>
           <button
