@@ -1,10 +1,16 @@
 import { useState } from "react";
 
+import { useRouter } from "next/router";
+
 import { calculateControlCategory } from "../../helpers";
 
 import st from "./index.module.scss";
 
-const Form = ({ inputValue, setInputValue, fine, setFine, getFineService }) => {
+const Form = () => {
+  const router = useRouter();
+
+  const [inputValue, setInputValue] = useState("");
+
   const [hint, setHint] = useState(null);
 
   const onChangeHandler = (e) => {
@@ -19,28 +25,17 @@ const Form = ({ inputValue, setInputValue, fine, setFine, getFineService }) => {
     } else if ((value.length !== 19 || value.length !== 24) && hint) {
       setHint(null);
     }
-
-    if (fine?.number || fine === null) {
-      setFine({});
-    }
   };
 
   const onHintClickHandler = () => {
     setInputValue(hint);
     setHint(null);
-    setFine({});
   };
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
 
-    const response = await getFineService(inputValue);
-
-    if (!response) {
-      setFine(null);
-    } else {
-      setFine(response);
-    }
+    router.push(inputValue);
   };
 
   return (
