@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import { useRouter } from "next/router";
 
 import { calculateControlCategory } from "../../helpers";
+
+import WarningModal from "./frames/WarningModal";
 
 import st from "./index.module.scss";
 
@@ -12,6 +14,10 @@ const Form = () => {
   const [inputValue, setInputValue] = useState(router.query.number ?? "");
 
   const [hint, setHint] = useState(null);
+
+  const [isWarningModalActive, setIsWarningModalActive] = useState(false);
+
+  const inputRef = useRef(null);
 
   const onChangeHandler = (e) => {
     const value = e.target.value;
@@ -35,7 +41,21 @@ const Form = () => {
   const onSubmitHandler = async (e) => {
     e.preventDefault();
 
+    if (inputValue.length === 20 || inputValue.length === 25) {
+      startFineSearch();
+    } else if (inputValue.length !== 20 && inputValue.length !== 25) {
+      setIsWarningModalActive(true);
+    }
+  };
+
+  const startFineSearch = () => {
+    setIsWarningModalActive(false);
     router.push("/fine/" + inputValue);
+  };
+
+  const closeModal = () => {
+    setIsWarningModalActive(false);
+    inputRef.current.focus();
   };
 
   return (
@@ -46,12 +66,23 @@ const Form = () => {
         value={inputValue}
         onChange={(e) => onChangeHandler(e)}
         maxLength="25"
+        ref={inputRef}
       />
+
       {hint !== null && (
         <div className={st.form__hint} onClick={onHintClickHandler}>
           {hint}
         </div>
       )}
+
+      {isWarningModalActive && (
+        <WarningModal
+          onSubmitClick={startFineSearch}
+          close={closeModal}
+          inputCount={inputValue.length}
+        />
+      )}
+
       <button onClick={(e) => onSubmitHandler(e)}>Найти</button>
     </form>
   );
